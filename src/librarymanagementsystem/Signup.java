@@ -100,6 +100,7 @@ public class Signup extends JFrame {
         Toolkit.getDefaultToolkit().getScreenSize().height / 2 - 300
     );
     setVisible(true);
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
   }
 
