@@ -1,4 +1,5 @@
 package librarymanagementsystem;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -7,22 +8,30 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.List;
 
-public class AdminPanel extends JFrame {
+public class UserPanel extends JFrame {
   private LibraryDatabaseUpdate libraryDatabaseUpdate;
   private JTextField titleField, authorField, publisherField, yearField, idField;
   private JTextArea outputArea;
 
-  public AdminPanel() {
+  public UserPanel() {
     libraryDatabaseUpdate = new LibraryDatabaseUpdate();
-    setTitle("Library Management System - Admin Panel");
-    setSize(800, 600);
-    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setTitle("Library Management System - User Panel");
+    setLayout(null);
+    setSize(1200, 800);
+    ImageIcon icon = new ImageIcon(ClassLoader.getSystemResource("icons/Logo.png"));
+    Image i2 = icon.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT);
+    JLabel l1 = new JLabel(new ImageIcon(i2));
+    l1.setBounds(
+      getSize().width / 2 - 50, 30, 100, 100
+    );
+    add(l1);
     setLayout(new BorderLayout());
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     // Input Panel
     JPanel inputPanel = new JPanel();
     inputPanel.setLayout(new java.awt.GridLayout(5, 2));
-    inputPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+    inputPanel.setBorder(new EmptyBorder(150, 50, 10, 50));
 
     // Create and configure the JLabel
     JLabel idLabel = new JLabel("Book ID:");
@@ -81,16 +90,17 @@ public class AdminPanel extends JFrame {
     // Output Area
     outputArea = new JTextArea();
     outputArea.setEditable(false);
-    outputArea.setPreferredSize(new Dimension(800, 300));
-    outputArea.setLineWrap(false); 
-    outputArea.setWrapStyleWord(false); 
+    outputArea.setPreferredSize(new Dimension(800, (int) (getSize().height * 0.5)));
+    outputArea.setLineWrap(true);
+    outputArea.setWrapStyleWord(true);
+    outputArea.setFont(new Font("Arial", Font.PLAIN, 16));
 
     JScrollPane scrollPane = new JScrollPane(outputArea);
-    scrollPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); 
+    scrollPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
     scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
     scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
     JPanel outputPanel = new JPanel();
-    outputPanel.setBorder(new EmptyBorder(10, 10, 0, 10)); // Inner padding
+    outputPanel.setBorder(new EmptyBorder(10, 40, 0, 40)); // Inner padding
     outputPanel.setLayout(new BorderLayout());
     outputPanel.add(scrollPane, BorderLayout.CENTER);
     add(outputPanel, BorderLayout.SOUTH);
@@ -236,6 +246,7 @@ public class AdminPanel extends JFrame {
   }
 
   public static void main(String[] args) {
-      System.err.println("This class is not meant to be run as a standalone application.");
+    new UserPanel().setVisible(true);
   }
+
 }

@@ -56,9 +56,9 @@ public class Login extends JFrame {
             @SuppressWarnings("deprecation")
             String password1 = t2.getText();
             if (username1.equals("admin") && password1.equals("admin")) {
-                setVisible(false);
                 JOptionPane.showMessageDialog(null, "Admin Login Successful");
                 new AdminPanel().setVisible(true);
+                setVisible(false);
             } else {
                 try {
                     LibraryDatabaseUpdate db = new LibraryDatabaseUpdate();
@@ -66,7 +66,7 @@ public class Login extends JFrame {
                     if (user != null && user.getPassword().equals(password1)) {
                         JOptionPane.showMessageDialog(null, "Login Successful");
                         setVisible(false);
-                        // new UserHomePage().setVisible(true);
+                        new UserPanel().setVisible(true);
                     } else {
                         JOptionPane.showMessageDialog(null, "Invalid Username or Password");
                     }
