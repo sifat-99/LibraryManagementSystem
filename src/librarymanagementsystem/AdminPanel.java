@@ -15,14 +15,21 @@ public class AdminPanel extends JFrame {
   public AdminPanel() {
     libraryDatabaseUpdate = new LibraryDatabaseUpdate();
     setTitle("Library Management System - Admin Panel");
-    setSize(800, 600);
-    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setSize(1200, 800);
+    ImageIcon icon = new ImageIcon(ClassLoader.getSystemResource("icons/Logo.png"));
+    Image i2 = icon.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT);
+    JLabel l1 = new JLabel(new ImageIcon(i2));
+    l1.setBounds(
+      getSize().width / 2 - 50, 30, 100, 100
+    );
+    add(l1);
     setLayout(new BorderLayout());
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     // Input Panel
     JPanel inputPanel = new JPanel();
     inputPanel.setLayout(new java.awt.GridLayout(5, 2));
-    inputPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+    inputPanel.setBorder(new EmptyBorder(150, 50, 10, 50));
 
     // Create and configure the JLabel
     JLabel idLabel = new JLabel("Book ID:");

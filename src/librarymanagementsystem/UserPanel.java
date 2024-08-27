@@ -73,8 +73,8 @@ public class UserPanel extends JFrame {
     // Button Panel
     JPanel buttonPanel = new JPanel();
     buttonPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-    JButton addButton = new JButton("Add Book");
-    JButton updateButton = new JButton("Update Book");
+    JButton addButton = new JButton("Borrow Book");
+    JButton updateButton = new JButton("Return Book");
     JButton deleteButton = new JButton("Delete Book");
     JButton viewButton = new JButton("View All Books");
     JButton searchButton = new JButton("Search by ID");
@@ -89,21 +89,29 @@ public class UserPanel extends JFrame {
 
     // Output Area
     outputArea = new JTextArea();
-    outputArea.setEditable(false);
-    outputArea.setPreferredSize(new Dimension(800, (int) (getSize().height * 0.5)));
-    outputArea.setLineWrap(true);
-    outputArea.setWrapStyleWord(true);
-    outputArea.setFont(new Font("Arial", Font.PLAIN, 16));
+outputArea.setEditable(false);
+outputArea.setPreferredSize(new Dimension(800, (int) (getSize().height * 0.5)));
+outputArea.setFont(new Font("Arial", Font.PLAIN, 16));
+outputArea.setLineWrap(true);
+outputArea.setWrapStyleWord(true);
 
-    JScrollPane scrollPane = new JScrollPane(outputArea);
-    scrollPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-    scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-    scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-    JPanel outputPanel = new JPanel();
-    outputPanel.setBorder(new EmptyBorder(10, 40, 0, 40)); // Inner padding
-    outputPanel.setLayout(new BorderLayout());
-    outputPanel.add(scrollPane, BorderLayout.CENTER);
-    add(outputPanel, BorderLayout.SOUTH);
+
+// Add the outputArea to a JScrollPane
+JScrollPane scrollPane = new JScrollPane(outputArea);
+scrollPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+// Set vertical scroll bar policy to always show and horizontal to show as needed
+scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+// Create a panel to hold the scroll pane
+JPanel outputPanel = new JPanel();
+outputPanel.setBorder(new EmptyBorder(10, 40, 0, 40)); // Inner padding
+outputPanel.setLayout(new BorderLayout());
+outputPanel.add(scrollPane, BorderLayout.CENTER);
+
+// Add the panel to the main container
+add(outputPanel, BorderLayout.SOUTH);
 
     // Button Actions
     addButton.addActionListener(new ActionListener() {
@@ -202,6 +210,7 @@ public class UserPanel extends JFrame {
             .append("Author: ").append(book.getAuthor()).append("\n")
             .append("Publisher: ").append(book.getPublisher()).append("\n")
             .append("Year: ").append(book.getYear()).append("\n\n");
+            
       }
       outputArea.setText(output.toString());
     } catch (SQLException ex) {
@@ -211,21 +220,44 @@ public class UserPanel extends JFrame {
 
   private void searchBookById() {
     try {
-      int id = Integer.parseInt(idField.getText());
-      Book book = libraryDatabaseUpdate.getBookById(id);
-      if (book != null) {
-        outputArea.setText("ID: " + book.getId() + "\n" +
-            "Title: " + book.getTitle() + "\n" +
-            "Author: " + book.getAuthor() + "\n" +
-            "Publisher: " + book.getPublisher() + "\n" +
-            "Year: " + book.getYear());
-      } else {
-        outputArea.setText("Book not found!");
-      }
+        int id = Integer.parseInt(idField.getText());
+        Book book = libraryDatabaseUpdate.getBookById(id);
+        if (book != null) {
+            outputArea.setText("ID: " + book.getId() + "\n" +
+                "Title: " + book.getTitle() + "\n" +
+                "Author: " + book.getAuthor() + "\n" +
+                "Publisher: " + book.getPublisher() + "\n" +
+                "Year: " + book.getYear());
+            
+            JButton borrowButton = new JButton("Borrow Book");
+            borrowButton.setBounds(100, 100, 200, 50);
+            borrowButton.setFont(new Font("serif", Font.BOLD, 20));
+            borrowButton.setBackground(Color.BLACK);
+            borrowButton.setForeground(Color.BLUE);
+            outputArea.add(borrowButton);
+            outputArea.revalidate(); // Refresh the output area to display the button
+            
+            borrowButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        // libraryDatabaseUpdate.borrowBook(id);
+                        JOptionPane.showMessageDialog(null, "Book borrowed successfully!");
+                        outputArea.remove(borrowButton); // Remove the borrow button
+                        outputArea.revalidate(); // Refresh the output area after removing the button
+                        outputArea.repaint(); // Repaint the area to ensure proper display
+                    } catch (Exception ex) {
+                        outputArea.setText("Error borrowing book: " + ex.getMessage());
+                    }
+                }
+            });
+        } else {
+            outputArea.setText("Book not found!");
+        }
     } catch (SQLException | NumberFormatException ex) {
-      outputArea.setText("Error searching book: " + ex.getMessage());
+        outputArea.setText("Error searching book: " + ex.getMessage());
     }
-  }
+}
 
   private void searchBookByName() {
     try {
@@ -238,6 +270,23 @@ public class UserPanel extends JFrame {
             .append("Author: ").append(book.getAuthor()).append("\n")
             .append("Publisher: ").append(book.getPublisher()).append("\n")
             .append("Year: ").append(book.getYear()).append("\n\n");
+            JButton borrowButton = new JButton("Borrow Book");
+            borrowButton.setBounds(100, 100, 200, 50);
+            borrowButton.setFont(new Font("serif", Font.BOLD, 20));
+            borrowButton.setBackground(Color.BLACK);
+            borrowButton.setForeground(Color.BLUE);
+            outputArea.add(borrowButton);
+            borrowButton.addActionListener(new ActionListener() {
+              @Override
+              public void actionPerformed(ActionEvent e) {
+                try {
+                  // libraryDatabaseUpdate.borrowBook(id);
+                  outputArea.setText("Book borrowed successfully!");
+                } catch (Exception ex) {
+                  outputArea.setText("Error borrowing book: " + ex.getMessage());
+                }
+              }
+            });
       }
       outputArea.setText(output.toString());
     } catch (SQLException ex) {
