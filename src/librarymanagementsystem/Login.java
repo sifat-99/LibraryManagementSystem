@@ -94,8 +94,8 @@ public class Login extends JFrame {
         setSize(800, 480);
         setVisible(true);
         setLocation(
-                (int) (getToolkit().getScreenSize().getWidth() - 800) / 2,
-                (int) (getToolkit().getScreenSize().getHeight() - 400) / 2);
+                Toolkit.getDefaultToolkit().getScreenSize().width / 2 - getSize().width / 2,
+                Toolkit.getDefaultToolkit().getScreenSize().height / 2 - getSize().height / 2);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     }

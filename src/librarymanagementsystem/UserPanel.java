@@ -17,7 +17,11 @@ public class UserPanel extends JFrame {
         libraryDatabaseUpdate = new LibraryDatabaseUpdate();
         setTitle("Library Management System - " + user.getName());
         setLayout(null);
+
         setSize(1200, 800);
+        setLocation(
+                Toolkit.getDefaultToolkit().getScreenSize().width / 2 - getSize().width / 2,
+                Toolkit.getDefaultToolkit().getScreenSize().height / 2 - getSize().height / 2);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Logo

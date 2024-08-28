@@ -17,6 +17,9 @@ public class AdminPanel extends JFrame {
     libraryDatabaseUpdate = new LibraryDatabaseUpdate();
     setTitle("Library Management System - Admin Panel");
     setSize(1200, 800);
+    setLocation(
+        Toolkit.getDefaultToolkit().getScreenSize().width / 2 - getSize().width / 2,
+        Toolkit.getDefaultToolkit().getScreenSize().height / 2 - getSize().height / 2);
     ImageIcon icon = new ImageIcon(ClassLoader.getSystemResource("icons/Logo.png"));
     Image i2 = icon.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT);
     JLabel l1 = new JLabel(new ImageIcon(i2));
@@ -107,22 +110,6 @@ public class AdminPanel extends JFrame {
 
     add(resultsScrollPane, BorderLayout.SOUTH);
 
-    // // Pagination Button Panel
-    // nextButton = new JButton("Next");
-    // prevButton = new JButton("Previous");
-    // firstButton = new JButton("First");
-    // lastButton = new JButton("Last");
-    // JPanel paginationButtonPanel = new JPanel();
-    // paginationButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-    // paginationButtonPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-    // paginationButtonPanel.add(firstButton);
-    // paginationButtonPanel.add(prevButton);
-    // paginationButtonPanel.add(nextButton);
-    // paginationButtonPanel.add(lastButton);
-
-    // Add the pagination button panel at the bottom of the screen
-
-    // Button Actions
     addButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
@@ -282,6 +269,8 @@ public class AdminPanel extends JFrame {
     resultsPanel.revalidate();
     resultsPanel.repaint();
   }
+
+ 
 
 
 
