@@ -1,4 +1,5 @@
 package librarymanagementsystem;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -10,7 +11,7 @@ import java.util.List;
 public class AdminPanel extends JFrame {
   private LibraryDatabaseUpdate libraryDatabaseUpdate;
   private JTextField titleField, authorField, publisherField, yearField, idField;
-  private JTextArea outputArea;
+  private JPanel resultsPanel;
 
   public AdminPanel() {
     libraryDatabaseUpdate = new LibraryDatabaseUpdate();
@@ -19,22 +20,20 @@ public class AdminPanel extends JFrame {
     ImageIcon icon = new ImageIcon(ClassLoader.getSystemResource("icons/Logo.png"));
     Image i2 = icon.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT);
     JLabel l1 = new JLabel(new ImageIcon(i2));
-    l1.setBounds(
-      getSize().width / 2 - 50, 30, 100, 100
-    );
+    l1.setBounds(getSize().width / 2 - 50, 30, 100, 100);
     add(l1);
     setLayout(new BorderLayout());
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     // Input Panel
     JPanel inputPanel = new JPanel();
-    inputPanel.setLayout(new java.awt.GridLayout(5, 2));
+    inputPanel.setLayout(new GridLayout(5, 2));
     inputPanel.setBorder(new EmptyBorder(150, 50, 10, 50));
 
     // Create and configure the JLabel
     JLabel idLabel = new JLabel("Book ID:");
-    idLabel.setForeground(Color.RED); // Set text color to red
-    idLabel.setFont(new Font("Arial", Font.BOLD, 16)); // Set font to Arial, bold, size 16
+    idLabel.setForeground(Color.RED);
+    idLabel.setFont(new Font("Arial", Font.BOLD, 16));
     inputPanel.add(idLabel);
     idField = new JTextField();
     inputPanel.add(idField);
@@ -70,13 +69,20 @@ public class AdminPanel extends JFrame {
 
     // Button Panel
     JPanel buttonPanel = new JPanel();
+    buttonPanel.setLayout(null);
     buttonPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
     JButton addButton = new JButton("Add Book");
+    addButton.setBounds(10, 10, 100, 30);
     JButton updateButton = new JButton("Update Book");
+    updateButton.setBounds(120, 10, 120, 30);
     JButton deleteButton = new JButton("Delete Book");
+    deleteButton.setBounds(250, 10, 110, 30);
     JButton viewButton = new JButton("View All Books");
+    viewButton.setBounds(370, 10, 130, 30);
     JButton searchButton = new JButton("Search by ID");
+    searchButton.setBounds(510, 10, 120, 30);
     JButton searchButtonByName = new JButton("Search by Name");
+    searchButtonByName.setBounds(640, 10, 140, 30);
     buttonPanel.add(addButton);
     buttonPanel.add(updateButton);
     buttonPanel.add(deleteButton);
@@ -85,22 +91,36 @@ public class AdminPanel extends JFrame {
     buttonPanel.add(searchButtonByName);
     add(buttonPanel, BorderLayout.CENTER);
 
-    // Output Area
-    outputArea = new JTextArea();
-    outputArea.setEditable(false);
-    outputArea.setPreferredSize(new Dimension(800, 300));
-    outputArea.setLineWrap(false); 
-    outputArea.setWrapStyleWord(false); 
+    // Results Panel
+    resultsPanel = new JPanel();
+    resultsPanel.setLayout(new BoxLayout(resultsPanel, BoxLayout.Y_AXIS));
+    resultsPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+    JScrollPane resultsScrollPane = new JScrollPane(resultsPanel);
+    resultsScrollPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+    resultsScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+    resultsScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
-    JScrollPane scrollPane = new JScrollPane(outputArea);
-    scrollPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); 
-    scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-    scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-    JPanel outputPanel = new JPanel();
-    outputPanel.setBorder(new EmptyBorder(10, 10, 0, 10)); // Inner padding
-    outputPanel.setLayout(new BorderLayout());
-    outputPanel.add(scrollPane, BorderLayout.CENTER);
-    add(outputPanel, BorderLayout.SOUTH);
+    // Calculate the height as 40% of the screen height
+    int screenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
+    int desiredHeight = (int) (screenHeight * 0.4);
+    resultsScrollPane.setPreferredSize(new Dimension(resultsScrollPane.getPreferredSize().width, desiredHeight));
+
+    add(resultsScrollPane, BorderLayout.SOUTH);
+
+    // // Pagination Button Panel
+    // nextButton = new JButton("Next");
+    // prevButton = new JButton("Previous");
+    // firstButton = new JButton("First");
+    // lastButton = new JButton("Last");
+    // JPanel paginationButtonPanel = new JPanel();
+    // paginationButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+    // paginationButtonPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+    // paginationButtonPanel.add(firstButton);
+    // paginationButtonPanel.add(prevButton);
+    // paginationButtonPanel.add(nextButton);
+    // paginationButtonPanel.add(lastButton);
+
+    // Add the pagination button panel at the bottom of the screen
 
     // Button Actions
     addButton.addActionListener(new ActionListener() {
@@ -137,12 +157,15 @@ public class AdminPanel extends JFrame {
         searchBookById();
       }
     });
+
     searchButtonByName.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
         searchBookByName();
       }
     });
+
+
   }
 
   private void addBook() {
@@ -154,9 +177,9 @@ public class AdminPanel extends JFrame {
       int year = Integer.parseInt(yearField.getText());
       Book book = new Book(id, title, author, publisher, year);
       libraryDatabaseUpdate.addBook(book);
-      outputArea.setText("Book added successfully!");
+      showMessage("Book added successfully!");
     } catch (SQLException | NumberFormatException ex) {
-      outputArea.setText("Error adding book: " + ex.getMessage());
+      showMessage("Error adding book: " + ex.getMessage());
     }
   }
 
@@ -169,13 +192,13 @@ public class AdminPanel extends JFrame {
         book.setAuthor(authorField.getText());
         book.setPublisher(publisherField.getText());
         book.setYear(Integer.parseInt(yearField.getText()));
-        // libraryDatabaseUpdate.updateBook(book);
-        outputArea.setText("Book updated successfully!");
+        libraryDatabaseUpdate.updateBook(book);
+        showMessage("Book updated successfully!");
       } else {
-        outputArea.setText("Book not found!");
+        showMessage("Book not found!");
       }
     } catch (SQLException | NumberFormatException ex) {
-      outputArea.setText("Error updating book: " + ex.getMessage());
+      showMessage("Error updating book: " + ex.getMessage());
     }
   }
 
@@ -183,26 +206,21 @@ public class AdminPanel extends JFrame {
     try {
       int id = Integer.parseInt(idField.getText());
       libraryDatabaseUpdate.deleteBook(id);
-      outputArea.setText("Book deleted successfully!");
+      showMessage("Book deleted successfully!");
     } catch (SQLException | NumberFormatException ex) {
-      outputArea.setText("Error deleting book: " + ex.getMessage());
+      showMessage("Error deleting book: " + ex.getMessage());
     }
   }
 
   private void viewAllBooks() {
     try {
       List<Book> books = libraryDatabaseUpdate.getAllBooks();
-      StringBuilder output = new StringBuilder();
-      for (Book book : books) {
-        output.append("ID: ").append(book.getId()).append("\n")
-            .append("Title: ").append(book.getTitle()).append("\n")
-            .append("Author: ").append(book.getAuthor()).append("\n")
-            .append("Publisher: ").append(book.getPublisher()).append("\n")
-            .append("Year: ").append(book.getYear()).append("\n\n");
+      for(Book book : books) {
+        displayBook(book);
       }
-      outputArea.setText(output.toString());
+
     } catch (SQLException ex) {
-      outputArea.setText("Error retrieving books: " + ex.getMessage());
+      showMessage("Error viewing books: " + ex.getMessage());
     }
   }
 
@@ -210,17 +228,14 @@ public class AdminPanel extends JFrame {
     try {
       int id = Integer.parseInt(idField.getText());
       Book book = libraryDatabaseUpdate.getBookById(id);
+      resultsPanel.removeAll();
       if (book != null) {
-        outputArea.setText("ID: " + book.getId() + "\n" +
-            "Title: " + book.getTitle() + "\n" +
-            "Author: " + book.getAuthor() + "\n" +
-            "Publisher: " + book.getPublisher() + "\n" +
-            "Year: " + book.getYear());
+        displayBook(book);
       } else {
-        outputArea.setText("Book not found!");
+        showMessage("Book not found!");
       }
     } catch (SQLException | NumberFormatException ex) {
-      outputArea.setText("Error searching book: " + ex.getMessage());
+      showMessage("Error searching book: " + ex.getMessage());
     }
   }
 
@@ -228,21 +243,51 @@ public class AdminPanel extends JFrame {
     try {
       String title = titleField.getText();
       List<Book> books = libraryDatabaseUpdate.getBookByName(title);
-      StringBuilder output = new StringBuilder();
-      for (Book book : books) {
-        output.append("ID: ").append(book.getId()).append("\n")
-            .append("Title: ").append(book.getTitle()).append("\n")
-            .append("Author: ").append(book.getAuthor()).append("\n")
-            .append("Publisher: ").append(book.getPublisher()).append("\n")
-            .append("Year: ").append(book.getYear()).append("\n\n");
+      resultsPanel.removeAll();
+      if (books.isEmpty()) {
+        showMessage("No books found!");
+      } else {
+        for (Book book : books) {
+          displayBook(book);
+        }
       }
-      outputArea.setText(output.toString());
     } catch (SQLException ex) {
-      outputArea.setText("Error retrieving books: " + ex.getMessage());
+      showMessage("Error searching book: " + ex.getMessage());
     }
   }
 
+  private void showMessage(String message) {
+    resultsPanel.removeAll();
+    JLabel messageLabel = new JLabel(message);
+    messageLabel.setForeground(Color.RED);
+    resultsPanel.add(messageLabel);
+    resultsPanel.revalidate();
+    resultsPanel.repaint();
+  }
+
+  private void displayBook(Book book) {
+    JPanel bookPanel = new JPanel();
+    bookPanel.setLayout(new BoxLayout(bookPanel, BoxLayout.Y_AXIS));
+    bookPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+    bookPanel.add(new JLabel("ID: " + book.getId()));
+    bookPanel.add(Box.createVerticalStrut(5));
+    bookPanel.add(new JLabel("Title: " + book.getTitle()));
+    bookPanel.add(Box.createVerticalStrut(5)); 
+    bookPanel.add(new JLabel("Author: " + book.getAuthor()));
+    bookPanel.add(Box.createVerticalStrut(5)); 
+    bookPanel.add(new JLabel("Publisher: " + book.getPublisher()));
+    bookPanel.add(Box.createVerticalStrut(5)); 
+    bookPanel.add(new JLabel("Year: " + book.getYear()));
+    resultsPanel.add(bookPanel);
+    resultsPanel.revalidate();
+    resultsPanel.repaint();
+  }
+
+
+
+
   public static void main(String[] args) {
-      System.err.println("This class is not meant to be run as a standalone application.");
+    AdminPanel adminPanel = new AdminPanel();
+    adminPanel.setVisible(true);
   }
 }

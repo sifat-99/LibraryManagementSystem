@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
-
 public class LibraryDatabaseUpdate {
 
   public void addNewUser(String name, String username1, String password1) {
@@ -141,6 +140,63 @@ public class LibraryDatabaseUpdate {
             rs.getInt("year")));
       }
       return books;
+    }
+  }
+
+  public List<Book> getBorrowedBooks(String user) throws SQLException {
+    String query = "SELECT * FROM borrowedBooks WHERE user = ?";
+    List<Book> books = new ArrayList<>();
+    try (Connection conn = Conn.getConnection();
+        PreparedStatement stmt = conn.prepareStatement(query)) {
+      // Set the user parameter for the query
+      stmt.setString(1, user);
+
+      try (ResultSet rs = stmt.executeQuery()) {
+        while (rs.next()) {
+          books.add(new Book(
+              rs.getInt("id"),
+              rs.getString("title"),
+              rs.getString("author"),
+              rs.getString("publisher"),
+              rs.getInt("year")));
+        }
+      }
+    }
+    return books;
+  }
+
+  public void borrowBook(int bookId, String user) throws SQLException {
+    String query = "INSERT INTO borrowedBooks (id, title, author, publisher, year, user) VALUES (?, ?, ?, ?, ?, ?)";
+    try (Connection conn = Conn.getConnection();
+        PreparedStatement stmt = conn.prepareStatement(query)) {
+      // Get the book details from the database
+      Book book = getBookById(bookId);
+
+      if (book != null) {
+        stmt.setInt(1, book.getId());
+        stmt.setString(2, book.getTitle());
+        stmt.setString(3, book.getAuthor());
+        stmt.setString(4, book.getPublisher());
+        stmt.setInt(5, book.getYear());
+        stmt.setString(6, user);
+        stmt.executeUpdate();
+      } else {
+        throw new SQLException("Book not found");
+      }
+    }
+  }
+
+  public void returnBook(int bookId, String user) throws SQLException {
+    String query = "DELETE FROM borrowedBooks WHERE id = ? AND user = ?";
+
+    try (Connection conn = Conn.getConnection();
+        PreparedStatement stmt = conn.prepareStatement(query)) {
+      stmt.setInt(1, bookId);
+      stmt.setString(2, user);
+      int rowsAffected = stmt.executeUpdate();
+      if (rowsAffected == 0) {
+        throw new SQLException("No book found with the given ID for this user.");
+      }
     }
   }
 
