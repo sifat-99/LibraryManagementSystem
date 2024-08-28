@@ -16,6 +16,7 @@ public class Login extends JFrame {
         JLabel text = new JLabel("Library Management System");
         add(text);
         text.setBounds(300, 50, 400, 100);
+        text.setForeground(Color.BLACK);
         text.setFont(new Font("serif", Font.BOLD, 30));
 
         JLabel username = new JLabel("Username");
