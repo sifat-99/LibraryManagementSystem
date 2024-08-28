@@ -9,13 +9,14 @@ import java.util.*;
 
 public class LibraryDatabaseUpdate {
 
-  public void addNewUser(String username1, String password1) {
-    String query = "INSERT INTO login (username, password) VALUES (?, ?)";
+  public void addNewUser(String name, String username1, String password1) {
+    String query = "INSERT INTO login (name, username, password) VALUES (?, ?, ?)";
     try {
       Connection conn = Conn.getConnection();
       PreparedStatement stmt = conn.prepareStatement(query);
-      stmt.setString(1, username1);
-      stmt.setString(2, password1);
+      stmt.setString(1, name);
+      stmt.setString(2, username1);
+      stmt.setString(3, password1);
       stmt.executeUpdate();
     } catch (Exception e) {
       e.printStackTrace();
@@ -40,6 +41,7 @@ public class LibraryDatabaseUpdate {
       if (rs.next()) {
         // Return a new User object with the retrieved username and password
         return new User(
+            rs.getString("name"),
             rs.getString("username"),
             rs.getString("password"));
       }

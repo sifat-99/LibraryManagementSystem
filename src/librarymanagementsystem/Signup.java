@@ -19,31 +19,43 @@ public class Signup extends JFrame {
     text.setBounds(300, 50, 400, 100);
     text.setFont(new Font("serif", Font.BOLD, 30));
 
+    JLabel Name = new JLabel("Name: ");
+    Name.setFont(new Font("serif", Font.BOLD, 20));
+    add(Name);
+    Name.setBounds(50, 200, 100, 30);
+    JTextField tn = new JTextField();
+    tn.setFont(new Font("serif", Font.BOLD, 20));
+    add(tn);
+    tn.setBounds(250, 200, 400, 30);
+
     JLabel username = new JLabel("Username");
     username.setFont(new Font("serif", Font.BOLD, 20));
     add(username);
-    username.setBounds(50, 200, 100, 30);
+    username.setBounds(50, 250, 100, 30);
     JTextField t1 = new JTextField();
     t1.setFont(new Font("serif", Font.BOLD, 20));
     add(t1);
-    t1.setBounds(250, 200, 400, 30);
+    t1.setBounds(250, 250, 400, 30);
+
+
+
     JLabel password = new JLabel("Password");
     password.setFont(new Font("serif", Font.BOLD, 20));
     add(password);
-    password.setBounds(50, 250, 100, 30);
+    password.setBounds(50, 300, 100, 30);
     JPasswordField t2 = new JPasswordField();
     t2.setFont(new Font("serif", Font.BOLD, 20));
     add(t2);
-    t2.setBounds(250, 250, 400, 30);
+    t2.setBounds(250, 300, 400, 30);
 
     JLabel confirmPassword = new JLabel("Confirm Password");
     confirmPassword.setFont(new Font("serif", Font.BOLD, 20));
     add(confirmPassword);
-    confirmPassword.setBounds(50, 300, 200, 30);
+    confirmPassword.setBounds(50, 350, 200, 30);
     JPasswordField t3 = new JPasswordField();
     t3.setFont(new Font("serif", Font.BOLD, 20));
     add(t3);
-    t3.setBounds(250, 300, 400, 30);
+    t3.setBounds(250, 350, 400, 30);
 
     JLabel alreadyHaveAnAccount = new JLabel("Already have an account?");
     alreadyHaveAnAccount.setFont(new Font("serif", Font.BOLD, 20));
@@ -66,18 +78,19 @@ public class Signup extends JFrame {
     add(signup);
 
     login.addActionListener(e -> {
+      String name = tn.getText();
       String username1 = t1.getText();
       @SuppressWarnings("deprecation")
       String password1 = t2.getText();
       @SuppressWarnings("deprecation")
       String confirmPassword1 = t3.getText();
-      if (username1.equals("") || password1.equals("") || confirmPassword1.equals("")) {
+      if (name.equals("")|| username1.equals("") || password1.equals("") || confirmPassword1.equals("")) {
         JOptionPane.showMessageDialog(null, "Please fill all the fields");
       } else if (!password1.equals(confirmPassword1)) {
         JOptionPane.showMessageDialog(null, "Password and Confirm Password should be same");
       } else {
         LibraryDatabaseUpdate libraryDatabaseUpdate = new LibraryDatabaseUpdate();
-        libraryDatabaseUpdate.addNewUser(username1, password1);
+        libraryDatabaseUpdate.addNewUser(name,username1, password1);
         JOptionPane.showMessageDialog(null, "User added successfully");
         setVisible(false);
         new Login().setVisible(true);

@@ -66,7 +66,7 @@ public class Login extends JFrame {
                     if (user != null && user.getPassword().equals(password1)) {
                         JOptionPane.showMessageDialog(null, "Login Successful");
                         setVisible(false);
-                        new UserPanel().setVisible(true);
+                        new UserPanel(user).setVisible(true);
                     } else {
                         JOptionPane.showMessageDialog(null, "Invalid Username or Password");
                     }

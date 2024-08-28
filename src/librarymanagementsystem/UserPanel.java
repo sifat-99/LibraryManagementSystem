@@ -13,9 +13,9 @@ public class UserPanel extends JFrame {
   private JTextField titleField, authorField, publisherField, yearField, idField;
   private JTextArea outputArea;
 
-  public UserPanel() {
+  public UserPanel(User user) {
     libraryDatabaseUpdate = new LibraryDatabaseUpdate();
-    setTitle("Library Management System - User Panel");
+    setTitle("Library Management System -"+ user.getName());
     setLayout(null);
     setSize(1200, 800);
     ImageIcon icon = new ImageIcon(ClassLoader.getSystemResource("icons/Logo.png"));
@@ -27,6 +27,7 @@ public class UserPanel extends JFrame {
     add(l1);
     setLayout(new BorderLayout());
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
 
     // Input Panel
     JPanel inputPanel = new JPanel();
@@ -295,7 +296,7 @@ add(outputPanel, BorderLayout.SOUTH);
   }
 
   public static void main(String[] args) {
-    new UserPanel().setVisible(true);
+    System.out.println("UserPanel.main");
   }
 
 }
