@@ -6,14 +6,14 @@ import java.awt.*;
 
 public class Login extends JFrame {
     Login() {
-        setTitle("Library Management System");
+        setTitle("Library Management System - Login");
         setLayout(null);
         ImageIcon icon = new ImageIcon(ClassLoader.getSystemResource("icons/Logo.png"));
         Image i2 = icon.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT);
         JLabel l1 = new JLabel(new ImageIcon(i2));
         l1.setBounds(150, 50, 100, 100);
         add(l1);
-        JLabel text = new JLabel("Library Management System");
+        JLabel text = new JLabel("Library Management System - Login");
         add(text);
         text.setBounds(300, 50, 400, 100);
         text.setForeground(Color.BLACK);
@@ -73,7 +73,6 @@ public class Login extends JFrame {
                     }
 
                 } catch (Exception ex) {
-                    // TODO: handle exception
                     System.err.println(ex);
                 }
             }
