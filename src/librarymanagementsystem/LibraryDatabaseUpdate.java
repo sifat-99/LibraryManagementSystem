@@ -125,19 +125,19 @@ public class LibraryDatabaseUpdate {
   }
 
   public List<Book> getBookByName(String name) throws SQLException {
-    String query = "SELECT * FROM books WHERE title = ?";
+    String query = "SELECT * FROM books WHERE title LIKE ?";
     try (Connection conn = Conn.getConnection();
-        PreparedStatement stmt = conn.prepareStatement(query)) {
-      stmt.setString(1, name);
+      PreparedStatement stmt = conn.prepareStatement(query)) {
+      stmt.setString(1, "%" + name + "%");
       ResultSet rs = stmt.executeQuery();
       List<Book> books = new ArrayList<>();
       while (rs.next()) {
-        books.add(new Book(
-            rs.getInt("id"),
-            rs.getString("title"),
-            rs.getString("author"),
-            rs.getString("publisher"),
-            rs.getInt("year")));
+      books.add(new Book(
+        rs.getInt("id"),
+        rs.getString("title"),
+        rs.getString("author"),
+        rs.getString("publisher"),
+        rs.getInt("year")));
       }
       return books;
     }
