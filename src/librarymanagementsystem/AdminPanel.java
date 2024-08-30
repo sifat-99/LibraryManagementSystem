@@ -21,7 +21,6 @@ public class AdminPanel extends JFrame {
                 Toolkit.getDefaultToolkit().getScreenSize().width / 2 - getSize().width / 2,
                 Toolkit.getDefaultToolkit().getScreenSize().height / 2 - getSize().height / 2);
 
-        // Custom panel with gradient background
         JPanel contentPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -29,8 +28,8 @@ public class AdminPanel extends JFrame {
                 Graphics2D g2d = (Graphics2D) g;
                 int width = getWidth();
                 int height = getHeight();
-                Color color1 = new Color(135, 206, 250); 
-                Color color2 = new Color(70, 130, 180); 
+                Color color1 = new Color(135, 206, 250);
+                Color color2 = new Color(70, 130, 180);
                 GradientPaint gp = new GradientPaint(0, 0, color1, 0, height, color2);
                 g2d.setPaint(gp);
                 g2d.fillRect(0, 0, width, height);
@@ -51,20 +50,19 @@ public class AdminPanel extends JFrame {
         text.setForeground(Color.BLACK);
         text.setFont(new Font("serif", Font.BOLD, 30));
         contentPanel.add(text, BorderLayout.NORTH);
-        
 
         // Input Panel
         JPanel inputPanel = new JPanel();
-        inputPanel.setLayout(new GridLayout(5, 2, 10, 10)); // Added padding between fields
+        inputPanel.setLayout(new GridLayout(5, 2, 10, 10));
         inputPanel.setBorder(new EmptyBorder(150, 50, 10, 50));
-        inputPanel.setOpaque(false); // Make the panel transparent to show the gradient background
+        inputPanel.setOpaque(false);
 
         JLabel idLabel = new JLabel("Book ID:");
         idLabel.setForeground(Color.RED);
         idLabel.setFont(new Font("Arial", Font.BOLD, 16));
         inputPanel.add(idLabel);
         idField = new JTextField();
-        idField.setMargin(new Insets(5, 10, 5, 10)); // Add padding inside the input field
+        idField.setMargin(new Insets(5, 10, 5, 10));
         inputPanel.add(idField);
 
         JLabel titleLabel = new JLabel("Title:");
@@ -72,7 +70,7 @@ public class AdminPanel extends JFrame {
         titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
         inputPanel.add(titleLabel);
         titleField = new JTextField();
-        titleField.setMargin(new Insets(5, 10, 5, 10)); // Add padding inside the input field
+        titleField.setMargin(new Insets(5, 10, 5, 10));
         inputPanel.add(titleField);
 
         JLabel authorLabel = new JLabel("Author:");
@@ -80,7 +78,7 @@ public class AdminPanel extends JFrame {
         authorLabel.setFont(new Font("Arial", Font.BOLD, 16));
         inputPanel.add(authorLabel);
         authorField = new JTextField();
-        authorField.setMargin(new Insets(5, 10, 5, 10)); // Add padding inside the input field
+        authorField.setMargin(new Insets(5, 10, 5, 10));
         inputPanel.add(authorField);
 
         JLabel publisherLabel = new JLabel("Publisher:");
@@ -88,7 +86,7 @@ public class AdminPanel extends JFrame {
         publisherLabel.setFont(new Font("Arial", Font.BOLD, 16));
         inputPanel.add(publisherLabel);
         publisherField = new JTextField();
-        publisherField.setMargin(new Insets(5, 10, 5, 10)); // Add padding inside the input field
+        publisherField.setMargin(new Insets(5, 10, 5, 10));
         inputPanel.add(publisherField);
 
         JLabel yearLabel = new JLabel("Year:");
@@ -96,7 +94,7 @@ public class AdminPanel extends JFrame {
         yearLabel.setFont(new Font("Arial", Font.BOLD, 16));
         inputPanel.add(yearLabel);
         yearField = new JTextField();
-        yearField.setMargin(new Insets(5, 10, 5, 10)); // Add padding inside the input field
+        yearField.setMargin(new Insets(5, 10, 5, 10));
         inputPanel.add(yearField);
 
         contentPanel.add(inputPanel, BorderLayout.NORTH);
@@ -104,7 +102,7 @@ public class AdminPanel extends JFrame {
         // Button Panel
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(null);
-        buttonPanel.setOpaque(false); // Make the panel transparent to show the gradient background
+        buttonPanel.setOpaque(false);
         buttonPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
         JButton addButton = new JButton("Add Book");
@@ -118,7 +116,7 @@ public class AdminPanel extends JFrame {
         JButton searchButton = new JButton("Search by ID");
         searchButton.setBounds(630, 10, 150, 30);
         JButton searchButtonByName = new JButton("Search by Name");
-        searchButtonByName.setBounds(785 , 10, 150, 30);
+        searchButtonByName.setBounds(785, 10, 150, 30);
 
         addHoverEffect(addButton);
         addHoverEffect(updateButton);
@@ -139,7 +137,7 @@ public class AdminPanel extends JFrame {
         resultsPanel = new JPanel();
         resultsPanel.setLayout(new BoxLayout(resultsPanel, BoxLayout.Y_AXIS));
         resultsPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-        resultsPanel.setOpaque(true); // Make the panel transparent to show the gradient background
+        resultsPanel.setOpaque(true);
         JScrollPane resultsScrollPane = new JScrollPane(resultsPanel);
         resultsScrollPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         resultsScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -284,7 +282,7 @@ public class AdminPanel extends JFrame {
 
     private void displayBook(Book book) {
         JPanel bookPanel = new JPanel();
-        
+
         bookPanel.setLayout(new BoxLayout(bookPanel, BoxLayout.Y_AXIS));
         bookPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         bookPanel.add(new JLabel(" ID: " + book.getId()));
@@ -299,11 +297,10 @@ public class AdminPanel extends JFrame {
         resultsPanel.add(bookPanel);
         resultsPanel.revalidate();
         resultsPanel.repaint();
- 
+
     }
 
     public static void main(String[] args) {
-        AdminPanel adminPanel = new AdminPanel();
-        adminPanel.setVisible(true);
+        System.out.println("Protected Admin Panel");
     }
 }
