@@ -25,6 +25,7 @@ public class Login extends JFrame {
                 g2d.fillRect(0, 0, width, height);
             }
         };
+        // contentPanel.setBackground(new Color(135, 206, 250)); // Light Sky Blue
         contentPanel.setLayout(null);
         setContentPane(contentPanel);
 
