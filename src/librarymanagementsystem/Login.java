@@ -15,12 +15,17 @@ public class Login extends JFrame {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
+                // Create a 2D graphics object
                 Graphics2D g2d = (Graphics2D) g;
+                // Get the width and height of the panel
                 int width = getWidth();
-                int height = getHeight();
+                int height = getHeight(
+                );
+                // Create a gradient paint
                 Color color1 = new Color(135, 206, 250); // Light Sky Blue
                 Color color2 = new Color(70, 130, 180); // Steel Blue
                 GradientPaint gp = new GradientPaint(0, 0, color1, 0, height, color2);
+                // Set the paint to the 2D graphics object
                 g2d.setPaint(gp);
                 g2d.fillRect(0, 0, width, height);
             }
